@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'config/router/app_router.dart';
+import 'theme/app_theme.dart';
 
 class FountaApp extends StatelessWidget {
   const FountaApp({super.key});
@@ -12,10 +13,8 @@ class FountaApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Founta App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       routerConfig: router,
     );
   }

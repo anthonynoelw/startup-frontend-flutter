@@ -1,12 +1,54 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/theme_extensions.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Home'),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return SafeArea(
+      child: Padding(
+          padding: EdgeInsets.all(context.appSpacing.md),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Home',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              SizedBox(height: context.appSpacing.lg),
+              Card(
+                elevation: 0,
+                color: colorScheme.surfaceContainerHighest,
+                child: Padding(
+                  padding: EdgeInsets.all(context.appSpacing.md),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.home_rounded,
+                        size: 32,
+                        color: context.appTheme?.primary ?? colorScheme.primary,
+                      ),
+                      SizedBox(width: context.appSpacing.sm),
+                      Expanded(
+                        child: Text(
+                          'Welcome to Founta',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
     );
   }
 }

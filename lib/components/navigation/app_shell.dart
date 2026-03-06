@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config/navigation/app_navigation_config.dart';
+import '../../theme/theme_extensions.dart';
 
 /// App shell: shared layout (AppBar + drawer or bottom nav) around route content.
 /// Navigation style is controlled by [AppNavigationConfig.navigationType].
@@ -77,13 +78,14 @@ class _NavDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final drawerColor = context.appTheme?.drawerHeader ?? Theme.of(context).colorScheme.primary;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Text(
+          DrawerHeader(
+            decoration: BoxDecoration(color: drawerColor),
+            child: const Text(
               'Founta',
               style: TextStyle(color: Colors.white, fontSize: 24),
             ),

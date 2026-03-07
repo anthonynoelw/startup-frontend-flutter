@@ -75,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           final response = await AuthApi().login(
                             email: _emailController.text.trim(),
                             password: _passwordController.text,
-                            deviceName: 'app',
                           );
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(

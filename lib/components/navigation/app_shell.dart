@@ -33,9 +33,7 @@ class _ScaffoldWithDrawer extends StatelessWidget {
     final title = _titleForPath(location);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       drawer: _NavDrawer(currentPath: location),
       body: child,
     );
@@ -61,10 +59,12 @@ class _ScaffoldWithBottomNav extends StatelessWidget {
           context.go(items[index].path);
         },
         destinations: items
-            .map((item) => NavigationDestination(
-                  icon: Icon(item.icon),
-                  label: item.label,
-                ))
+            .map(
+              (item) => NavigationDestination(
+                icon: Icon(item.icon),
+                label: item.label,
+              ),
+            )
             .toList(),
       ),
     );
@@ -78,7 +78,8 @@ class _NavDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final drawerColor = context.appTheme?.drawerHeader ?? Theme.of(context).colorScheme.primary;
+    final drawerColor =
+        context.appTheme?.drawerHeader ?? Theme.of(context).colorScheme.primary;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -118,7 +119,9 @@ String _titleForPath(String path) {
 }
 
 int _indexForPath(String path) {
-  final i = AppNavigationConfig.navItems.indexWhere((item) => _pathsMatch(path, item.path));
+  final i = AppNavigationConfig.navItems.indexWhere(
+    (item) => _pathsMatch(path, item.path),
+  );
   return i >= 0 ? i : 0;
 }
 

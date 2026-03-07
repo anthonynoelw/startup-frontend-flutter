@@ -8,6 +8,7 @@ Audit of `lib/` and related files. Last updated after theme refactor and scaling
 lib/
 ├── main.dart
 ├── app.dart
+├── constants.dart
 ├── config/
 │   ├── navigation/
 │   │   └── app_navigation_config.dart
@@ -29,7 +30,7 @@ lib/
             └── settings_screen.dart
 ```
 
-**10 Dart files** in `lib/`. No top-level `constants/`, `utils/`, `models/`, `services/` yet.
+**11 Dart files** in `lib/`. Top-level `constants.dart`; no `utils/`, `models/`, `services/` folders yet.
 
 ---
 
@@ -39,6 +40,14 @@ lib/
 |------|------|
 | `main.dart` | Entry point; runs `FountaApp`. |
 | `app.dart` | `FountaApp`: `MaterialApp.router` with "Founta App", `theme: AppTheme.light`, `darkTheme: AppTheme.dark`, router from `createAppRouter()`. |
+
+---
+
+## Constants
+
+| File | Role |
+|------|------|
+| `constants.dart` | `Constants`: abstract final class with static consts (e.g. `baseUrl`). Single place for app-wide values like API base URL. |
 
 ---
 

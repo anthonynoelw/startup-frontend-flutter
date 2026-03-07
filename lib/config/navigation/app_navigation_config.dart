@@ -4,22 +4,16 @@ import 'package:flutter/material.dart';
 abstract final class AppRoutes {
   static const String home = '/';
   static const String settings = '/settings';
+  static const String login = '/login';
 }
 
 /// Defines how main navigation is rendered (drawer vs bottom bar).
 /// Change this to switch layout without touching shell implementation.
-enum AppNavigationType {
-  drawer,
-  bottom,
-}
+enum AppNavigationType { drawer, bottom }
 
 /// One entry in the app navigation (drawer or bottom bar).
 class NavItem {
-  const NavItem({
-    required this.path,
-    required this.label,
-    required this.icon,
-  });
+  const NavItem({required this.path, required this.label, required this.icon});
 
   final String path;
   final String label;
@@ -33,6 +27,11 @@ abstract final class AppNavigationConfig {
 
   static const List<NavItem> navItems = [
     NavItem(path: AppRoutes.home, label: 'Home', icon: Icons.home_outlined),
-    NavItem(path: AppRoutes.settings, label: 'Settings', icon: Icons.settings_outlined),
+    NavItem(
+      path: AppRoutes.settings,
+      label: 'Settings',
+      icon: Icons.settings_outlined,
+    ),
+    NavItem(path: AppRoutes.login, label: 'Login', icon: Icons.login_outlined),
   ];
 }

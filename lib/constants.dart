@@ -1,7 +1,15 @@
+import 'config/env.dart';
+
 /// Application constants.
 abstract final class Constants {
   Constants._();
 
-  static const String baseUrl =
-      'http://founta.ddev.site/api/v1/'; //has to be http for ddev to work
+  /// API base URL. Sourced from [Env.apiBaseUrl] (--dart-define=API_BASE_URL=...).
+  static const String baseUrl = Env.apiBaseUrl;
+
+  /// Base URL of the web app. Sourced from [Env.webAppUrl] (--dart-define=WEB_APP_URL=...).
+  static const String webAppUrl = Env.webAppUrl;
+
+  static const String privacyPolicyUrl = '${webAppUrl}privacy-policy';
+  static const String impressumUrl = '${webAppUrl}terms-of-service';
 }

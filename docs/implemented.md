@@ -10,6 +10,7 @@ lib/
 ├── app.dart
 ├── constants.dart
 ├── config/
+│   ├── env.dart
 │   ├── navigation/
 │   │   └── app_navigation_config.dart
 │   └── router/
@@ -60,11 +61,12 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 
 ---
 
-## Constants
+## Config and constants
 
-| File             | Role                                                                                                                       |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `constants.dart` | `Constants`: abstract final class with static consts (e.g. `baseUrl`). Single place for app-wide values like API base URL. |
+| File             | Role                                                                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `config/env.dart` | `Env`: build-time config from `--dart-define`. `apiBaseUrl` and `webAppUrl` (defaults: ddev API and web URLs). Use for dev/staging/prod without code changes. |
+| `constants.dart` | `Constants`: app-wide values. `baseUrl` is sourced from `Env.apiBaseUrl`; other consts (e.g. `webAppUrl`, policy URLs) live here.     |
 
 ---
 
@@ -125,7 +127,7 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 
 **Suggested next (when needed)**
 
-- **Env config** – e.g. `lib/config/env.dart` or `.env` (flutter_dotenv) for API base URL / flavor (dev, staging, prod). Add when you add a backend.
+- **Env config** – Done. `lib/config/env.dart` provides `Env.apiBaseUrl` from `--dart-define=API_BASE_URL=...`; `Constants.baseUrl` uses it. Add more keys (e.g. `WEB_APP_URL`) in env.dart if needed.
 - **Route registration** – If many features, register routes from a list or config so adding a feature = one entry.
 - **Feature tests** – Add navigation or screen-level tests when flows become critical.
 - **CI** – Run `flutter analyze` and `flutter test` on push/PR once the repo is shared.

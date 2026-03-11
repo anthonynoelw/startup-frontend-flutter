@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme_extensions.dart';
+import 'package:founta_app/theme/theme_extensions.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

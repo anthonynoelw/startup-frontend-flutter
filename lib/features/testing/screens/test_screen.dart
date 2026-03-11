@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme_extensions.dart';
-import '../api/test_api.dart';
+import 'package:founta_app/core/network/health.dart';
+import 'package:founta_app/features/testing/api/test_api.dart';
+import 'package:founta_app/theme/app_theme_extension.dart';
+import 'package:founta_app/theme/theme_extensions.dart';
 
 class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
@@ -14,6 +18,38 @@ class _TestScreenState extends State<TestScreen> {
   dynamic _data;
   Object? _error;
   bool _loading = false;
+  bool? _backendUp;
+  bool _backendChecking = false;
+  Timer? _pollTimer;
+
+  static const _pollInterval = Duration(seconds: 3);
+
+  /// Border radius matching the app's card/container style (Material 3 default).
+  static const _borderRadius = BorderRadius.all(Radius.circular(12));
+
+  @override
+  void initState() {
+    super.initState();
+    _checkBackend();
+    _pollTimer = Timer.periodic(_pollInterval, (_) => _checkBackend());
+  }
+
+  @override
+  void dispose() {
+    _pollTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _checkBackend() async {
+    if (_backendChecking) return;
+    setState(() => _backendChecking = true);
+    final up = await checkBackendUp();
+    if (!mounted) return;
+    setState(() {
+      _backendUp = up;
+      _backendChecking = false;
+    });
+  }
 
   Future<void> _fetchData() async {
     setState(() {
@@ -42,12 +78,44 @@ class _TestScreenState extends State<TestScreen> {
     final spacing = context.appSpacing;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final cardShape = Theme.of(context).cardTheme.shape;
+    final borderRadius = cardShape is RoundedRectangleBorder
+        ? cardShape.borderRadius
+        : _borderRadius;
+
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(spacing.md),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: spacing.sm, horizontal: spacing.md),
+              decoration: BoxDecoration(
+                color: _backendUp == null
+                    ? colorScheme.surfaceContainerHighest
+                    : _backendUp!
+                        ? Theme.of(context).extension<AppThemeExtension>()?.success.withOpacity(0.25) ?? colorScheme.primaryContainer
+                        : colorScheme.errorContainer,
+                borderRadius: borderRadius,
+              ),
+              child: Text(
+                _backendUp == null
+                    ? 'Checking...'
+                    : _backendUp!
+                        ? 'Backend up'
+                        : 'Backend down',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: _backendUp == null
+                          ? colorScheme.onSurfaceVariant
+                          : _backendUp!
+                              ? Theme.of(context).extension<AppThemeExtension>()?.success ?? colorScheme.onPrimaryContainer
+                              : colorScheme.onErrorContainer,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ),
+            SizedBox(height: spacing.lg),
             FilledButton(
               onPressed: _loading ? null : _fetchData,
               child: Text(_loading ? 'Loading...' : 'Fetch data'),

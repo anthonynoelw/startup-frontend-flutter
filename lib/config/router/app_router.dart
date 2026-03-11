@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../components/navigation/app_shell.dart';
-import '../../config/navigation/app_navigation_config.dart';
-import '../../core/auth/auth_service.dart';
-import '../../core/auth/screens/login_screen.dart';
-import '../../features/home/screens/home_screen.dart';
-import '../../features/settings/screens/settings_screen.dart';
-import '../../features/testing/screens/test_screen.dart';
+import 'package:founta_app/components/navigation/app_shell.dart';
+import 'package:founta_app/config/navigation/app_navigation_config.dart';
+import 'package:founta_app/core/auth/auth_service.dart';
+import 'package:founta_app/core/auth/screens/login_screen.dart';
+import 'package:founta_app/features/home/screens/home_screen.dart';
+import 'package:founta_app/features/settings/screens/settings_screen.dart';
+import 'package:founta_app/features/testing/screens/test_screen.dart';
 
 /// Paths that are allowed when the user is not logged in. All other paths require login.
 const _publicPaths = [AppRoutes.login];

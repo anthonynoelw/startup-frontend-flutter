@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../config/navigation/app_navigation_config.dart';
-import '../../theme/theme_extensions.dart';
+import 'package:founta_app/config/navigation/app_navigation_config.dart';
+import 'package:founta_app/theme/theme_extensions.dart';
 
 /// App shell: shared layout (AppBar + drawer or bottom nav) around route content.
 /// Navigation style is controlled by [AppNavigationConfig.navigationType].

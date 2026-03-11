@@ -1,4 +1,4 @@
-import '../network/api.dart';
+import 'package:founta_app/core/network/api.dart';
 
 class AuthApi {
   static const String _deviceName = 'founta_app';

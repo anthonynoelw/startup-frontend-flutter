@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'config/router/app_router.dart';
-import 'theme/app_theme.dart';
+import 'package:founta_app/config/router/app_router.dart';
+import 'package:founta_app/theme/app_theme.dart';
 
 class FountaApp extends StatelessWidget {
   const FountaApp({super.key});

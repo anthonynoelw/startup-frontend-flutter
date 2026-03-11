@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../network/api.dart';
-import '../network/api_client.dart';
-import 'auth_api.dart';
+import 'package:founta_app/core/auth/auth_api.dart';
+import 'package:founta_app/core/network/api.dart';
+import 'package:founta_app/core/network/api_client.dart';
 
 /// Owns app auth state and login/logout. Single source of truth for "is the user logged in?".
 /// Use [authService] and call [AuthService.init] in main before runApp.

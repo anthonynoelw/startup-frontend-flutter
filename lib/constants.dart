@@ -1,4 +1,4 @@
-import 'config/env.dart';
+import 'package:founta_app/config/env.dart';
 
 /// Application constants.
 abstract final class Constants {

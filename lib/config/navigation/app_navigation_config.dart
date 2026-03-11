@@ -29,11 +29,11 @@ abstract final class AppNavigationConfig {
   /// Shown in shell (drawer/bottom nav) when logged in. Login is not here; use Settings > Logout.
   static const List<NavItem> navItems = [
     NavItem(path: AppRoutes.home, label: 'Home', icon: Icons.home_outlined),
+    NavItem(path: AppRoutes.test, label: 'Test', icon: Icons.code_outlined),
     NavItem(
       path: AppRoutes.settings,
       label: 'Settings',
       icon: Icons.settings_outlined,
     ),
-    NavItem(path: AppRoutes.test, label: 'Test', icon: Icons.code_outlined),
   ];
 }

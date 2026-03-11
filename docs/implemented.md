@@ -1,6 +1,6 @@
 # Implementation summary
 
-Audit of `lib/` and related files. Last updated after core auth and shared networking.
+Audit of `lib/` and related files. Last updated after health check, delete account, settings links, and package imports.
 
 ## Layout
 
@@ -23,7 +23,8 @@ lib/
 │   │       └── login_screen.dart
 │   └── network/
 │       ├── api.dart
-│       └── api_client.dart
+│       ├── api_client.dart
+│       └── health.dart
 ├── components/
 │   └── navigation/
 │       └── app_shell.dart
@@ -35,9 +36,16 @@ lib/
     ├── home/
     │   └── screens/
     │       └── home_screen.dart
-    └── settings/
+    ├── settings/
+    │   ├── api/
+    │   │   └── delete_account_api.dart
+    │   └── screens/
+    │       └── settings_screen.dart
+    └── testing/
+        ├── api/
+        │   └── test_api.dart
         └── screens/
-            └── settings_screen.dart
+            └── test_screen.dart
 ```
 
 ---
@@ -47,6 +55,7 @@ lib/
 **Auth:** Login/logout, token in secure storage, auth state (`isLoggedIn`), startup validation via `auth/check`, router redirect by auth, 401/419 → logout. Token generation counter so a stale 401 does not clear a newly stored token.
 
 **Networking:** Shared Dio client, base URL and `Accept: application/json`, interceptors (Bearer token, 401 handling), thin helpers `apiGet` / `apiPost` / etc.
+**Health check:** `core/network/health.dart` exposes `checkBackendUp()` which calls the backend `/up` route (same host/scheme as API base URL); returns `true`/`false`, no auth; call from anywhere (e.g. splash, settings, test screen).
 
 Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/networking.md).
 
@@ -84,18 +93,21 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 
 | File                                           | Role                                                                                                                                 |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `config/router/app_router.dart`                | go_router; `refreshListenable: authService.isLoggedIn`, redirect by auth; routes: `/login`, shell with `/`, `/settings`.              |
-| `config/navigation/app_navigation_config.dart` | `AppRoutes`, `AppNavigationType`, `NavItem`; `navItems` for shell (Home, Settings; Login via redirect).                               |
+| `config/router/app_router.dart`                | go_router; `refreshListenable: authService.isLoggedIn`, redirect by auth; routes: `/login`, shell with `/`, `/settings`, `/test`.      |
+| `config/navigation/app_navigation_config.dart` | `AppRoutes`, `AppNavigationType`, `NavItem`; `navItems` for shell (Home, Test, Settings; Login via redirect).                            |
 | `components/navigation/app_shell.dart`         | Shell: drawer or bottom nav from config; drawer header uses `context.appTheme?.drawerHeader`.                                        |
 
 ---
 
 ## Features
 
-| Feature  | Screen                                           | Status                                                                 |
-| -------- | ------------------------------------------------ | --------------------------------------------------------------------- |
-| Home     | `features/home/screens/home_screen.dart`         | Uses `context.appSpacing`, `context.appTheme`, title + welcome card.  |
-| Settings | `features/settings/screens/settings_screen.dart` | Themed title + subtitle; Logout button (authService.logout(), go login). |
+| Feature  | Screen / API                                      | Status                                                                                                                                 |
+| -------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Home     | `features/home/screens/home_screen.dart`         | Uses `context.appSpacing`, `context.appTheme`, title + welcome card.                                                                  |
+| Settings | `features/settings/screens/settings_screen.dart`  | Themed title + subtitle; **Logout**; **Delete account** (confirmation, then delete API + logout); **Privacy policy** and **Impressum** open in browser. |
+|          | `features/settings/api/delete_account_api.dart`   | `apiDelete('user')` for account deletion.                                                                                               |
+| Testing  | `features/testing/screens/test_screen.dart`      | Backend status bar (green up / red down), polled every 3s; Fetch data + user card.                                                      |
+|          | `features/testing/api/test_api.dart`             | Test API (e.g. user/me).                                                                                                               |
 
 ---
 
@@ -110,8 +122,9 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 ## Dependencies (relevant to lib)
 
 - **go_router** – routing and shell.
-- **dio** – shared HTTP client and interceptors.
+- **dio** – shared HTTP client and interceptors (replaces direct `http` usage).
 - **flutter_secure_storage** – token storage.
+- **url_launcher** – open Privacy policy and Impressum URLs in external browser.
 - Flutter SDK, Material; **theme** is app-defined (ThemeExtension).
 
 ---
@@ -127,7 +140,7 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 
 **Suggested next (when needed)**
 
-- **Env config** – Done. `lib/config/env.dart` provides `Env.apiBaseUrl` from `--dart-define=API_BASE_URL=...`; `Constants.baseUrl` uses it. Add more keys (e.g. `WEB_APP_URL`) in env.dart if needed.
+- **Env config** – Done. `lib/config/env.dart` provides `Env.apiBaseUrl` and `Env.webAppUrl` from `--dart-define`; `Constants` uses them for API, health, and web links. Add more keys in env.dart if needed.
 - **Route registration** – If many features, register routes from a list or config so adding a feature = one entry.
 - **Feature tests** – Add navigation or screen-level tests when flows become critical.
 - **CI** – Run `flutter analyze` and `flutter test` on push/PR once the repo is shared.
@@ -136,5 +149,5 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 
 ## Summary
 
-- **Done:** App entry, Material 3 + ThemeExtension theme, context theme helpers, go_router + shell, config-driven nav, **core auth** (login/logout, token, auth/check, redirect, token generation), **shared networking** (Dio, api helpers, interceptors), Home and Settings, passing smoke test.
-- **Not yet:** Env/config for API flavors, extra features, deeper tests, CI.
+- **Done:** App entry, Material 3 + ThemeExtension theme, context theme helpers, **package imports** (`package:founta_app/...`) across lib; go_router + shell, config-driven nav (Home, Test, Settings); **core auth** (login/logout, token, auth/check, redirect, token generation); **shared networking** (Dio, api helpers, interceptors); **health check** (`health.dart`, `checkBackendUp()` for `/up`); Home, **Settings** (logout, delete account, Privacy policy & Impressum links), **Testing** (backend status bar + fetch data); **url_launcher** for external links; passing smoke test.
+- **Not yet:** Deeper tests, CI.

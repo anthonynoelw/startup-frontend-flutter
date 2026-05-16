@@ -12,5 +12,5 @@ void main() async {
     debugPrint('[ApiClient] 403 EMAIL_NOT_VERIFIED $uri');
     authService.notifyEmailNotVerified();
   };
-  runApp(const FutterApp());
+  runApp(const FlutterApp());
 }

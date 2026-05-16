@@ -87,7 +87,7 @@ class _NavDrawer extends StatelessWidget {
           DrawerHeader(
             decoration: BoxDecoration(color: drawerColor),
             child: const Text(
-              'Futter',
+              'Flutter',
               style: TextStyle(color: Colors.white, fontSize: 24),
             ),
           ),
@@ -115,7 +115,7 @@ String _titleForPath(String path) {
   for (final item in AppNavigationConfig.navItems) {
     if (_pathsMatch(path, item.path)) return item.label;
   }
-  return 'Futter';
+  return 'Flutter';
 }
 
 int _indexForPath(String path) {

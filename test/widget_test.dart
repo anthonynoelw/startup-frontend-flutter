@@ -12,7 +12,7 @@ void main() {
       authService.isEmailVerified.value = true;
     });
 
-    await tester.pumpWidget(const FutterApp());
+    await tester.pumpWidget(const FlutterApp());
     await tester.pumpAndSettle();
 
     expect(find.text('Home'), findsWidgets);

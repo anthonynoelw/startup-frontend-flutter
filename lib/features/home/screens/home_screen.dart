@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(width: context.appSpacing.sm),
                     Expanded(
                       child: Text(
-                        'Welcome to Futter',
+                        'Welcome to Flutter',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),

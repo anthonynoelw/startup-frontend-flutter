@@ -75,8 +75,8 @@ Details: [docs/core/auth.md](core/auth.md), [docs/core/networking.md](core/netwo
 
 | File        | Role                                                                                                                                 |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `main.dart` | `authService.init()`; `onUnauthorized = () => authService.logout()`; **`onEmailNotVerified`** → debug log + `notifyEmailNotVerified()`; `runApp(FutterApp)`. |
-| `app.dart`  | `FutterApp`: `MaterialApp.router` with themes, `createAppRouter()`.                                                                |
+| `main.dart` | `authService.init()`; `onUnauthorized = () => authService.logout()`; **`onEmailNotVerified`** → debug log + `notifyEmailNotVerified()`; `runApp(FlutterApp)`. |
+| `app.dart`  | `FlutterApp`: `MaterialApp.router` with themes, `createAppRouter()`.                                                                |
 
 ---
 

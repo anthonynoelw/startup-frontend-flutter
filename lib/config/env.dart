@@ -14,7 +14,7 @@ abstract final class Env {
   /// API base URL (with trailing slash). Dio appends paths to this.
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://flutter.ddev.site/api/v1/',
+    defaultValue: 'http://founta.ddev.site:33000/api/v1/',
   );
 
   /// Base URL of the web app (trailing slash). Used for privacy policy, terms, etc.

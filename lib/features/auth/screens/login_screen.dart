@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController(text: 'test.user@gmx.de');
+  final _emailController = TextEditingController(text: 'editor@example.com');
   final _passwordController = TextEditingController(text: '11111111');
   String? _loginError;
 
@@ -59,7 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         autocorrect: false,
                         onChanged: (_) {
-                          if (_loginError != null) setState(() => _loginError = null);
+                          if (_loginError != null)
+                            setState(() => _loginError = null);
                         },
                         decoration: InputDecoration(
                           labelText: 'Email',
@@ -72,7 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: true,
                         autocorrect: false,
                         onChanged: (_) {
-                          if (_loginError != null) setState(() => _loginError = null);
+                          if (_loginError != null)
+                            setState(() => _loginError = null);
                         },
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -104,7 +106,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             context.go(AppRoutes.home);
                           } catch (e) {
                             if (!context.mounted) return;
-                            setState(() => _loginError = parseApiError(e, fallbackPrefix: 'Login failed'));
+                            setState(
+                              () => _loginError = parseApiError(
+                                e,
+                                fallbackPrefix: 'Login failed',
+                              ),
+                            );
                           }
                         },
                         child: const Text('Sign in'),
